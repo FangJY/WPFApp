@@ -1,0 +1,462 @@
+﻿<Window
+    x:Class="GdutApp.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:GdutApp"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:model="clr-namespace:GdutApp.Model"
+    xmlns:vm="clr-namespace:GdutApp.ViewModel"
+    Width="1200"
+    Height="850"
+    d:DataContext="{x:Type vm:MainWindowVM}"
+    Background="{x:Null}"
+    ResizeMode="CanResizeWithGrip"
+    WindowStartupLocation="CenterScreen"
+    WindowStyle="ToolWindow"
+    mc:Ignorable="d">
+    <Window.Resources>
+
+        <Style x:Key="HorizontalExpanderContentTextBlock" TargetType="{x:Type TextBlock}">
+            <Setter Property="Opacity" Value=".68" />
+            <Setter Property="Text" Value="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum." />
+            <Setter Property="TextWrapping" Value="Wrap" />
+        </Style>
+
+        <Style
+            x:Key="VerticalExpanderContentTextBlock"
+            BasedOn="{StaticResource HorizontalExpanderContentTextBlock}"
+            TargetType="{x:Type TextBlock}">
+            <Setter Property="MaxWidth" Value="180" />
+        </Style>
+
+        <Style x:Key="HorizontalDividerBorder" TargetType="{x:Type Border}">
+            <Setter Property="Background" Value="{DynamicResource MaterialDesignDivider}" />
+            <Setter Property="UseLayoutRounding" Value="True" />
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="Height" Value="1" />
+        </Style>
+
+        <Style
+            x:Key="VerticalDividerBorder"
+            BasedOn="{StaticResource HorizontalDividerBorder}"
+            TargetType="{x:Type Border}">
+            <Setter Property="VerticalAlignment" Value="Stretch" />
+            <Setter Property="Height" Value="Auto" />
+            <Setter Property="Width" Value="1" />
+        </Style>
+
+        <ContentControl x:Key="exph" x:Shared="False">
+            <DockPanel>
+                <TextBlock
+                    Margin="20,0,5,0"
+                    VerticalAlignment="Center"
+                    FontSize="20"
+                    TextAlignment="Center">
+                    上饶科技
+                </TextBlock>
+                <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                    <Button Margin="5,0,5,0">sync</Button>
+                    <Button Margin="5,0,5,0">start</Button>
+                    <Button Margin="5,0,5,0">stop</Button>
+                </StackPanel>
+            </DockPanel>
+        </ContentControl>
+
+        <DataTemplate x:Key="ServerInfoDT" DataType="{x:Type model:Server}">
+            <materialDesign:Card
+                Padding="0"
+                Background="#03a9f4"
+                Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}">
+                <StackPanel>
+                    <TextBlock
+                        Margin="16,16,16,4"
+                        Style="{StaticResource MaterialDesignHeadline5TextBlock}"
+                        Text="{Binding Ip}"
+                        TextAlignment="Center" />
+                    <Separator Style="{StaticResource MaterialDesignLightSeparator}" />
+                    <DockPanel>
+                        <TextBlock
+                            Margin="16,8,16,8"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            DockPanel.Dock="Left"
+                            Style="{StaticResource MaterialDesignBody2TextBlock}"
+                            Text="CamstarSecurityLMServer" />
+                        <StackPanel
+                            Margin="16,8,16,8"
+                            HorizontalAlignment="Right"
+                            DockPanel.Dock="Right"
+                            Orientation="Horizontal">
+                            <TextBlock
+                                Padding="2,0,2,0"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Center"
+                                materialDesign:RippleAssist.IsCentered="True"
+                                Text="{Binding CamstarSecurityLMServerStatus}" />
+                            <materialDesign:PopupBox Padding="2,0,2,0" HorizontalAlignment="Right">
+                                <StackPanel>
+                                    <Button VerticalAlignment="Center">
+                                        <StackPanel
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            Orientation="Horizontal">
+                                            <materialDesign:PackIcon VerticalAlignment="Center" Kind="Stop" />
+                                            <TextBlock
+                                                VerticalAlignment="Center"
+                                                Style="{StaticResource MaterialDesignBody2TextBlock}"
+                                                Text="Stop"
+                                                TextAlignment="Center" />
+                                        </StackPanel>
+                                    </Button>
+                                    <Button VerticalAlignment="Center" materialDesign:RippleAssist.IsCentered="True">
+                                        <StackPanel
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            Orientation="Horizontal">
+                                            <materialDesign:PackIcon Kind="Play" />
+                                            <TextBlock
+                                                VerticalAlignment="Center"
+                                                Style="{StaticResource MaterialDesignBody2TextBlock}"
+                                                Text="Start"
+                                                TextAlignment="Center" />
+                                        </StackPanel>
+                                    </Button>
+                                    <Button VerticalAlignment="Center" materialDesign:RippleAssist.IsCentered="True">
+                                        <StackPanel
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            Orientation="Horizontal">
+                                            <materialDesign:PackIcon Kind="Restart" />
+                                            <TextBlock
+                                                VerticalAlignment="Center"
+                                                Style="{StaticResource MaterialDesignBody2TextBlock}"
+                                                Text="Restart"
+                                                TextAlignment="Center" />
+                                        </StackPanel>
+                                    </Button>
+                                </StackPanel>
+                            </materialDesign:PopupBox>
+                        </StackPanel>
+                    </DockPanel>
+                    <DockPanel>
+                        <TextBlock
+                            Margin="16,8,16,8"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            DockPanel.Dock="Left"
+                            Style="{StaticResource MaterialDesignBody2TextBlock}"
+                            Text="Camstar Security Server" />
+                        <StackPanel
+                            Margin="16,8,16,8"
+                            HorizontalAlignment="Right"
+                            DockPanel.Dock="Right"
+                            Orientation="Horizontal">
+                            <TextBlock
+                                Padding="2,0,2,0"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Center"
+                                materialDesign:RippleAssist.IsCentered="True"
+                                Text="{Binding CamstarSecurityServerStatus}">
+                                运行中
+                            </TextBlock>
+                            <materialDesign:PopupBox Padding="2,0,2,0" HorizontalAlignment="Right">
+                                <StackPanel>
+                                    <Button VerticalAlignment="Center">
+                                        <StackPanel
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            Orientation="Horizontal">
+                                            <materialDesign:PackIcon VerticalAlignment="Center" Kind="Stop" />
+                                            <TextBlock
+                                                VerticalAlignment="Center"
+                                                Style="{StaticResource MaterialDesignBody2TextBlock}"
+                                                Text="Stop"
+                                                TextAlignment="Center" />
+                                        </StackPanel>
+                                    </Button>
+                                    <Button VerticalAlignment="Center" materialDesign:RippleAssist.IsCentered="True">
+                                        <StackPanel
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            Orientation="Horizontal">
+                                            <materialDesign:PackIcon Kind="Play" />
+                                            <TextBlock
+                                                VerticalAlignment="Center"
+                                                Style="{StaticResource MaterialDesignBody2TextBlock}"
+                                                Text="Start"
+                                                TextAlignment="Center" />
+                                        </StackPanel>
+                                    </Button>
+                                    <Button VerticalAlignment="Center" materialDesign:RippleAssist.IsCentered="True">
+                                        <StackPanel
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            Orientation="Horizontal">
+                                            <materialDesign:PackIcon Kind="Restart" />
+                                            <TextBlock
+                                                VerticalAlignment="Center"
+                                                Style="{StaticResource MaterialDesignBody2TextBlock}"
+                                                Text="Restart"
+                                                TextAlignment="Center" />
+                                        </StackPanel>
+                                    </Button>
+                                </StackPanel>
+                            </materialDesign:PopupBox>
+                        </StackPanel>
+                    </DockPanel>
+                    <DockPanel>
+                        <TextBlock
+                            Margin="16,8,16,8"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            DockPanel.Dock="Left"
+                            Style="{StaticResource MaterialDesignBody2TextBlock}"
+                            Text="Camstar Server" />
+                        <StackPanel
+                            Margin="16,8,16,8"
+                            HorizontalAlignment="Right"
+                            DockPanel.Dock="Right"
+                            Orientation="Horizontal">
+                            <TextBlock
+                                Padding="2,0,2,0"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Center"
+                                materialDesign:RippleAssist.IsCentered="True"
+                                Text="{Binding CamstarServerStatus}" />
+                            <materialDesign:PopupBox Padding="2,0,2,0" HorizontalAlignment="Right">
+                                <StackPanel>
+                                    <Button VerticalAlignment="Center">
+                                        <StackPanel
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            Orientation="Horizontal">
+                                            <materialDesign:PackIcon VerticalAlignment="Center" Kind="Stop" />
+                                            <TextBlock
+                                                VerticalAlignment="Center"
+                                                Style="{StaticResource MaterialDesignBody2TextBlock}"
+                                                Text="Stop"
+                                                TextAlignment="Center" />
+                                        </StackPanel>
+                                    </Button>
+                                    <Button VerticalAlignment="Center" materialDesign:RippleAssist.IsCentered="True">
+                                        <StackPanel
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            Orientation="Horizontal">
+                                            <materialDesign:PackIcon Kind="Play" />
+                                            <TextBlock
+                                                VerticalAlignment="Center"
+                                                Style="{StaticResource MaterialDesignBody2TextBlock}"
+                                                Text="Start"
+                                                TextAlignment="Center" />
+                                        </StackPanel>
+                                    </Button>
+                                    <Button VerticalAlignment="Center" materialDesign:RippleAssist.IsCentered="True">
+                                        <StackPanel
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            Orientation="Horizontal">
+                                            <materialDesign:PackIcon Kind="Restart" />
+                                            <TextBlock
+                                                VerticalAlignment="Center"
+                                                Style="{StaticResource MaterialDesignBody2TextBlock}"
+                                                Text="Restart"
+                                                TextAlignment="Center" />
+                                        </StackPanel>
+                                    </Button>
+                                </StackPanel>
+                            </materialDesign:PopupBox>
+                        </StackPanel>
+                    </DockPanel>
+                    <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
+                        <StackPanel
+                            Margin="0,8,8,8"
+                            HorizontalAlignment="Left"
+                            Orientation="Horizontal">
+                            <TextBlock
+                                Margin="16,8,0,8"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                Style="{StaticResource MaterialDesignBody2TextBlock}"
+                                Text="CPU" />
+                            <TextBlock
+                                Padding="5,8,2,8"
+                                VerticalAlignment="Center"
+                                materialDesign:RippleAssist.IsCentered="True"
+                                FontStyle="Italic"
+                                Foreground="Black"
+                                Text="{Binding CpuRate}" />
+                        </StackPanel>
+
+                        <StackPanel
+                            Margin="16,8,16,8"
+                            HorizontalAlignment="Right"
+                            Orientation="Horizontal">
+                            <TextBlock
+                                Margin="5,8,0,8"
+                                VerticalAlignment="Center"
+                                Style="{StaticResource MaterialDesignBody2TextBlock}"
+                                Text="内存" />
+                            <TextBlock
+                                Padding="2,0,2,0"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Center"
+                                FontStyle="Italic"
+                                Foreground="Black"
+                                Text="{Binding Sdic}" />
+                        </StackPanel>
+
+                    </StackPanel>
+                </StackPanel>
+            </materialDesign:Card>
+
+        </DataTemplate>
+
+        <DataTemplate x:Key="FactoryBaseDT" DataType="{x:Type model:FactoryBase}">
+            <Expander Header="{Binding}">
+                <Expander.HeaderTemplate>
+                    <DataTemplate>
+                        <Grid HorizontalAlignment="{Binding Path=HorizontalAlignment, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContentPresenter}}, Mode=OneWayToSource}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="64" />
+                            </Grid.ColumnDefinitions>
+
+                            <TextBox Grid.Column="0" Text="{Binding Name, Mode=TwoWay}" />
+                            <TextBlock
+                                Grid.Column="1"
+                                Margin="4,0"
+                                Text="{Binding TotalCostString}" />
+                            <Button
+                                Grid.Column="2"
+                                Command="{Binding DataContext.RemoveItemGroup, ElementName=ItemGroups, Mode=OneWay}"
+                                CommandParameter="{Binding}"
+                                Content="Remove" />
+                        </Grid>
+                    </DataTemplate>
+                </Expander.HeaderTemplate>
+                <!--<Expander.Header>
+                    <Grid>
+                        <TextBlock HorizontalAlignment="{Binding HorizontalAlignment, RelativeSource={RelativeSource AncestorType=ContentPresenter}, Mode=OneWayToSource}" Text="Header" />
+
+                        <DockPanel>
+                            <TextBlock
+                                Margin="20,0,5,0"
+                                VerticalAlignment="Center"
+                                DockPanel.Dock="Left"
+                                FontSize="20"
+                                Text="{Binding RelativeSource={RelativeSource AncestorType={x:Type Expander}}, Path=Name}"
+                                TextAlignment="Center" />
+                            <StackPanel
+                                HorizontalAlignment="Right"
+                                DockPanel.Dock="Right"
+                                Orientation="Horizontal">
+                                <Button Margin="5,0,5,0">sync</Button>
+                                <Button Margin="5,0,5,0">start</Button>
+                                <Button Margin="5,0,5,0">stop</Button>
+                            </StackPanel>
+                        </DockPanel>
+                    </Grid>
+                </Expander.Header>-->
+
+                <!--<Expander.HeaderTemplate>
+                    <DataTemplate>
+                        <DockPanel>
+                            <TextBlock
+                                Grid.Column="0"
+                                Margin="20,0,5,0"
+                                VerticalAlignment="Center"
+                                DockPanel.Dock="Left"
+                                FontSize="20"
+                                Text="{Binding RelativeSource={RelativeSource AncestorType={x:Type Expander}}, Path=Name}"
+                                TextAlignment="Center" />
+                            <StackPanel
+                                Grid.Column="1"
+                                HorizontalAlignment="Right"
+                                DockPanel.Dock="Right"
+                                Orientation="Horizontal">
+                                <Button Margin="5,0,5,0">sync</Button>
+                                <Button Margin="5,0,5,0">start</Button>
+                                <Button Margin="5,0,5,0">stop</Button>
+                            </StackPanel>
+                        </DockPanel>
+                    </DataTemplate>
+                </Expander.HeaderTemplate>-->
+
+                <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+                    <WrapPanel
+                        MinWidth="600"
+                        MaxHeight="800"
+                        Margin="24,8,24,16"
+                        TextBlock.Foreground="{DynamicResource MaterialDesignBody}">
+
+                        <ListBox ItemTemplate="{StaticResource ServerInfoDT}" ItemsSource="{Binding Server}">
+                            <ListBox.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel />
+                                </ItemsPanelTemplate>
+                            </ListBox.ItemsPanel>
+                        </ListBox>
+                    </WrapPanel>
+                </ScrollViewer>
+            </Expander>
+        </DataTemplate>
+
+    </Window.Resources>
+    <ScrollViewer materialDesign:ScrollViewerAssist.IsAutoHideEnabled="True" Background="White">
+        <Border Background="White" CornerRadius="8">
+            <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <ItemsControl
+                    x:Name="ItemGroups"
+                    ItemsSource="{Binding Factorys}"
+                    ScrollViewer.VerticalScrollBarVisibility="Auto">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Expander Margin="4,0" Header="{Binding}">
+                                <Expander.HeaderTemplate>
+                                    <DataTemplate>
+                                        <Grid HorizontalAlignment="{Binding Path=HorizontalAlignment, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContentPresenter}}, Mode=OneWayToSource}">
+                                            <Grid.ColumnDefinitions>
+
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Grid.Column="0" Text="{Binding Name}" />
+                                            <StackPanel
+                                                Grid.Column="2"
+                                                HorizontalAlignment="Right"
+                                                DockPanel.Dock="Right"
+                                                Orientation="Horizontal">
+                                                <Button Margin="5,0,5,0">sync</Button>
+                                                <Button Margin="5,0,5,0">start</Button>
+                                                <Button Margin="5,0,5,0">stop</Button>
+                                            </StackPanel>
+                                        </Grid>
+                                    </DataTemplate>
+                                </Expander.HeaderTemplate>
+                                <Expander.Content>
+                                    <WrapPanel
+                                        MinWidth="600"
+                                        Margin="24,8,24,16"
+                                        TextBlock.Foreground="{DynamicResource MaterialDesignBody}">
+
+                                        <ListBox ItemTemplate="{StaticResource ServerInfoDT}" ItemsSource="{Binding Server}">
+                                            <ListBox.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                    <WrapPanel />
+                                                </ItemsPanelTemplate>
+                                            </ListBox.ItemsPanel>
+                                        </ListBox>
+                                    </WrapPanel>
+                                </Expander.Content>
+                            </Expander>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+        </Border>
+    </ScrollViewer>
+</Window>
